@@ -6,7 +6,7 @@ import usePrevious from './usePrevious';
  * @param value 얕은 비교를 실행할 값
  * @param callback 값이 변경되었을때 실행할 함수
  */
-const useDidUpdate = <T>(value: T, callback: (prevValue: T, value: T) => void) => {
+const useDidUpdate = (value, callback) => {
   const prevValue = usePrevious(value);
 
   useEffect(() => {

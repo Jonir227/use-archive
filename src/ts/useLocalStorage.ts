@@ -5,7 +5,7 @@ import { useState } from 'react';
  * @param {string} key
  * @param {object} defaultValue
  */
-const useLocalStorage = (key, defaultValue) => {
+const useLocalStorage = <T>(key: string, defaultValue: T): [T, typeof setStorage] => {
   if (typeof defaultValue !== 'object') throw Error('기본값과 변경된 값은 항상 객체여야 합니다.');
 
   const [data, setData] = useState(() => {
@@ -16,7 +16,7 @@ const useLocalStorage = (key, defaultValue) => {
     return fromStorage ? JSON.parse(fromStorage) : defaultValue;
   });
 
-  const setStorage = value => {
+  const setStorage = (value: T) => {
     if (typeof defaultValue !== 'object') throw Error('기본값과 변경된 값은 항상 객체여야 합니다.');
     localStorage.setItem(key, JSON.stringify(value));
     setData(value);

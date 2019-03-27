@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 
-interface IAsyncEntity<T> {
-  endpoint: ApiEndPoint<T>;
-  params?: any[];
-}
-
 /**
+ * @typedef APIEntity
+ * @type {object}
+ * @property endpoiont api의 엔드포인트
+ * @property defaultState 기본값
+ *
  * 마운트 되자마자 호출되는 비동기
- * @param entity : api 호출부분과 파라미터
- * @param defaultState : 기본 파라미터
+ * @param {APIEntity} entity api 호출부분과 파라미터
+ * @param defaultState 기본 파라미터
  */
-const useAsync = <T>(entity: IAsyncEntity<T>, defaultState: T): [State, T] => {
-  const [status, setStatus] = useState<State>('INIT');
-  const [data, setData] = useState<T>(defaultState);
+const useAsync = (entity, defaultState) => {
+  const [status, setStatus] = useState('INIT');
+  const [data, setData] = useState(defaultState);
 
   useEffect(() => {
     const { endpoint, params } = entity;

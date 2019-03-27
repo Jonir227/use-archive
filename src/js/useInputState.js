@@ -1,14 +1,11 @@
-import { ChangeEvent, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 /**
  * input을 사용하는 hooks
  * @param initialValue 초기값
  * @param validator input값 검증하는함수
  */
-const useInputState = (
-  initialValue: string,
-  validator?: (value: string) => boolean,
-): [string, typeof onChange, boolean] => {
+const useInputState = (initialValue, validator) => {
   const [inputValue, setInputValue] = useState(initialValue);
 
   const isValid = useMemo(() => {
@@ -18,7 +15,7 @@ const useInputState = (
     return validator(inputValue);
   }, [inputValue]);
 
-  const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const onChange = useCallback(e => {
     const { value } = e.currentTarget;
     setInputValue(value);
   }, []);

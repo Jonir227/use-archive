@@ -1,6 +1,11 @@
 import { useEffect, useCallback, useMemo } from 'react';
 
-const useIntersection = cb => {
+type IntersectionObserverCallback = (
+  entry: IntersectionObserverEntry,
+  observer: IntersectionObserver,
+) => void;
+
+const useIO = (cb: IntersectionObserverCallback) => {
   const io = useMemo(
     () =>
       new IntersectionObserver((entries, observer) => {
@@ -8,14 +13,14 @@ const useIntersection = cb => {
           cb(entry, observer);
         });
       }),
-    []
+    [],
   );
 
   useEffect(
     () => () => {
       io.disconnect();
     },
-    []
+    [],
   );
 
   const observe = useCallback(el => {
@@ -29,4 +34,4 @@ const useIntersection = cb => {
   return [observe, unobserve, io];
 };
 
-export default useIntersection;
+export default useIO;

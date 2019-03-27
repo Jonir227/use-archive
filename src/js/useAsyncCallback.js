@@ -5,12 +5,9 @@ import { useCallback, useState } from 'react';
  * @param endpoint : api 호출하는 함수
  * @param defaultState : 기본 상태
  */
-const useAsyncCallback = <T>(
-  endpoint: ApiEndPoint<T>,
-  defaultState: T,
-): [State, T, (...p: any[]) => void] => {
-  const [status, setStatus] = useState<State>('INIT');
-  const [data, setData] = useState<T>(defaultState);
+const useAsyncCallback = (endpoint, defaultState) => {
+  const [status, setStatus] = useState('INIT');
+  const [data, setData] = useState(defaultState);
 
   const call = useCallback((...params) => {
     setStatus('WAITING');
