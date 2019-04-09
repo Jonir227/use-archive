@@ -1,4 +1,5 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect } from 'react';
+import useSetState from './useSetState';
 
 /**
  * 마운트 되자마자 호출되는 비동기
@@ -6,7 +7,7 @@ import { useEffect, useReducer } from 'react';
  * @param defaultState : 기본 파라미터
  */
 const useAsync = (entity, defaultState) => {
-  const [{ state, data }, setState] = useReducer((prev, curr) => ({ ...prev, ...curr }), {
+  const [{ state, data }, setState] = useSetState({
     data: defaultState,
     state: 'INIT',
   });

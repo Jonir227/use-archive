@@ -1,4 +1,5 @@
-import { Reducer, useEffect, useReducer } from 'react';
+import { useEffect } from 'react';
+import useSetState from './useSetState';
 
 interface IAsyncEntity<T, A extends any[]> {
   endpoint: ApiEndPoint<T, A | never[]>;
@@ -16,13 +17,10 @@ interface IAsyncState<T> {
  * @param defaultState : 기본 파라미터
  */
 const useAsync = <T, A extends any[]>(entity: IAsyncEntity<T, A>, defaultState: T): [State, T] => {
-  const [{ state, data }, setState] = useReducer<Reducer<IAsyncState<T>, Partial<IAsyncState<T>>>>(
-    (prev, curr) => ({ ...prev, ...curr }),
-    {
-      data: defaultState,
-      state: 'INIT',
-    },
-  );
+  const [{ state, data }, setState] = useSetState<IAsyncState<T>>({
+    data: defaultState,
+    state: 'INIT',
+  });
 
   useEffect(() => {
     const { endpoint, params } = entity;

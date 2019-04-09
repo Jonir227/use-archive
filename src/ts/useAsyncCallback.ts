@@ -1,4 +1,5 @@
-import { Reducer, useCallback, useReducer } from 'react';
+import { useCallback } from 'react';
+import useSetState from './useSetState';
 
 interface IAsyncState<T> {
   state: State;
@@ -14,13 +15,10 @@ const useAsyncCallback = <T, A extends any[]>(
   endpoint: ApiEndPoint<T, A>,
   defaultState: T,
 ): [State, T, (...param: A) => void] => {
-  const [{ state, data }, setState] = useReducer<Reducer<IAsyncState<T>, Partial<IAsyncState<T>>>>(
-    (prev, curr) => ({ ...prev, ...curr }),
-    {
-      data: defaultState,
-      state: 'INIT',
-    },
-  );
+  const [{ state, data }, setState] = useSetState<IAsyncState<T>>({
+    data: defaultState,
+    state: 'INIT',
+  });
 
   const call = useCallback((...args: A) => {
     setState({ state: 'WAITING' });
