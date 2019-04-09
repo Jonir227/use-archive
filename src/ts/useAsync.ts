@@ -1,8 +1,13 @@
-import { useEffect, useState } from 'react';
+import { Reducer, useEffect, useReducer } from 'react';
 
-interface IAsyncEntity<T> {
-  endpoint: ApiEndPoint<T>;
-  params?: any[];
+interface IAsyncEntity<T, A extends any[]> {
+  endpoint: ApiEndPoint<T, A | never[]>;
+  params?: A;
+}
+
+interface IAsyncState<T> {
+  state: State;
+  data: T;
 }
 
 /**
@@ -10,25 +15,30 @@ interface IAsyncEntity<T> {
  * @param entity : api 호출부분과 파라미터
  * @param defaultState : 기본 파라미터
  */
-const useAsync = <T>(entity: IAsyncEntity<T>, defaultState: T): [State, T] => {
-  const [status, setStatus] = useState<State>('INIT');
-  const [data, setData] = useState<T>(defaultState);
+const useAsync = <T, A extends any[]>(entity: IAsyncEntity<T, A>, defaultState: T): [State, T] => {
+  const [{ state, data }, setState] = useReducer<Reducer<IAsyncState<T>, Partial<IAsyncState<T>>>>(
+    (prev, curr) => ({ ...prev, ...curr }),
+    {
+      data: defaultState,
+      state: 'INIT',
+    },
+  );
 
   useEffect(() => {
     const { endpoint, params } = entity;
-    setStatus('WAITING');
+    setState({ state: 'WAITING' });
     endpoint
       .apply(null, params || [])
-      .then(res => {
-        setData(res);
-        setStatus('SUCCESS');
+      .then((res: T) => {
+        setState({ state: 'SUCCESS', data: res });
       })
-      .catch(() => {
-        setStatus('FAILURE');
+      .catch((e: Error) => {
+        console.log(e);
+        setState({ state: 'FAILURE' });
       });
   }, []);
 
-  return [status, data];
+  return [state, data];
 };
 
 export default useAsync;
