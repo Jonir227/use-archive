@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useReducer } from 'react';
 
 /**
  * 상태, 데이터, 데이터 호출하는함수를 리턴하는 hooks
@@ -6,23 +6,25 @@ import { useCallback, useState } from 'react';
  * @param defaultState : 기본 상태
  */
 const useAsyncCallback = (endpoint, defaultState) => {
-  const [status, setStatus] = useState('INIT');
-  const [data, setData] = useState(defaultState);
+  const [{ state, data }, setState] = useReducer((prev, curr) => ({ ...prev, ...curr }), {
+    data: defaultState,
+    state: 'INIT',
+  });
 
-  const call = useCallback((...params) => {
-    setStatus('WAITING');
+  const call = useCallback((...args) => {
+    setState({ state: 'WAITING' });
     endpoint
-      .apply(null, params || [])
+      .apply(null, args || [])
       .then(res => {
-        setData(res);
-        setStatus('SUCCESS');
+        setState({ state: 'SUCCESS', data: res });
       })
-      .catch(() => {
-        setStatus('FAILURE');
+      .catch(e => {
+        console.log(e);
+        setState({ state: 'FAILURE' });
       });
   }, []);
 
-  return [status, data, call];
+  return [state, data, call];
 };
 
 export default useAsyncCallback;
