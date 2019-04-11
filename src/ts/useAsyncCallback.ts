@@ -11,10 +11,7 @@ interface IAsyncState<T> {
  * @param endpoint : api 호출하는 함수
  * @param defaultState : 기본 상태
  */
-const useAsyncCallback = <T, A extends any[]>(
-  endpoint: ApiEndPoint<T, A>,
-  defaultState: T,
-): [State, T, (...param: A) => void] => {
+const useAsyncCallback = <T, A extends any[]>(endpoint: ApiEndPoint<T, A>, defaultState: T) => {
   const [{ state, data }, setState] = useSetState<IAsyncState<T>>({
     data: defaultState,
     state: 'INIT',
@@ -33,7 +30,7 @@ const useAsyncCallback = <T, A extends any[]>(
       });
   }, []);
 
-  return [state, data, call];
+  return [state, data, call] as const;
 };
 
 export default useAsyncCallback;

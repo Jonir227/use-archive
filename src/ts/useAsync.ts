@@ -16,7 +16,7 @@ interface IAsyncState<T> {
  * @param entity : api 호출부분과 파라미터
  * @param defaultState : 기본 파라미터
  */
-const useAsync = <T, A extends any[]>(entity: IAsyncEntity<T, A>, defaultState: T): [State, T] => {
+const useAsync = <T, A extends any[]>(entity: IAsyncEntity<T, A>, defaultState: T) => {
   const [{ state, data }, setState] = useSetState<IAsyncState<T>>({
     data: defaultState,
     state: 'INIT',
@@ -36,7 +36,7 @@ const useAsync = <T, A extends any[]>(entity: IAsyncEntity<T, A>, defaultState: 
       });
   }, []);
 
-  return [state, data];
+  return [state, data] as const;
 };
 
 export default useAsync;

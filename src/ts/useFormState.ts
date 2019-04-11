@@ -7,10 +7,7 @@ type FormValidator<T> = (value: T) => boolean;
  * @param initialValue form의 초기값
  * @param formValidator form 값을 검증해주는 함수
  */
-const useFormState = <T extends Object>(
-  initialValue: T,
-  formValidator: FormValidator<T>,
-): [T, typeof onChangeFormValue, boolean, React.Dispatch<{}>] => {
+const useFormState = <T extends Object>(initialValue: T, formValidator: FormValidator<T>) => {
   const [formValue, setFormValue] = useReducer(
     (prevState, newState) => ({ ...prevState, ...newState }),
     initialValue,
@@ -23,7 +20,7 @@ const useFormState = <T extends Object>(
 
   const isFormFilled = formValidator(formValue);
 
-  return [formValue, onChangeFormValue, isFormFilled, setFormValue];
+  return [formValue, onChangeFormValue, isFormFilled, setFormValue] as const;
 };
 
 export default useFormState;

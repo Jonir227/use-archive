@@ -5,7 +5,7 @@ import { useState } from 'react';
  * @param {string} key
  * @param {object} defaultValue
  */
-const useLocalStorage = <T>(key: string, defaultValue: T): [T, typeof setStorage] => {
+const useLocalStorage = <T>(key: string, defaultValue: T) => {
   if (typeof defaultValue !== 'object') throw Error('기본값과 변경된 값은 항상 객체여야 합니다.');
 
   const [data, setData] = useState(() => {
@@ -22,7 +22,7 @@ const useLocalStorage = <T>(key: string, defaultValue: T): [T, typeof setStorage
     setData(value);
   };
 
-  return [data, setStorage];
+  return [data, setStorage] as const;
 };
 
 export default useLocalStorage;
