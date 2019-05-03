@@ -5,6 +5,9 @@ import { useReducer } from 'react';
  * @param initialState 초기 상태값
  */
 const useSetState = initialState =>
-  useReducer((prev, curr) => ({ ...prev, ...curr }), initialState);
+  useReducer(
+    (prev, curr) => (typeof curr === 'function' ? curr(prev) : { ...prev, ...curr }),
+    initialState,
+  );
 
 export default useSetState;
