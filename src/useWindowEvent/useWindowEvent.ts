@@ -5,7 +5,11 @@ import { useLayoutEffect } from 'react';
  * @param type 이벤트 타입
  * @param fn 이벤트 핸들러
  */
-const useWindowEvent = (type: string, fn: EventListener, watch: any[] = []) => {
+const useWindowEvent = (
+  type: Parameters<typeof window.addEventListener>[0],
+  fn: Parameters<typeof window.addEventListener>[1],
+  watch: any[] = [],
+) => {
   useLayoutEffect(() => {
     window.addEventListener(type, fn);
     return () => {

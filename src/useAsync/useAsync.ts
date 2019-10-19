@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import useSetState from './useSetState';
+import useSetState from '../useSetState';
 
 interface IAsyncEntity<T, A extends any[]> {
   endpoint: ApiEndPoint<T, A | never[]>;

@@ -5,7 +5,7 @@ type IntersectionObserverCallback = (
   observer: IntersectionObserver,
 ) => void;
 
-const useIO = (cb: IntersectionObserverCallback) => {
+const useIntersectionObserver = (cb: IntersectionObserverCallback) => {
   const io = useMemo(
     () =>
       new IntersectionObserver((entries, observer) => {
@@ -34,4 +34,4 @@ const useIO = (cb: IntersectionObserverCallback) => {
   return [observe, unobserve, io];
 };
 
-export default useIO;
+export default useIntersectionObserver;

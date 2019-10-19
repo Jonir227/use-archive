@@ -1,13 +1,11 @@
-import { RefObject, useRef } from 'react';
-import useWindowEvent from './useWindowEvent';
+import { RefObject, useRef, useCallback } from 'react';
+import useWindowEvent from '../useWindowEvent';
 
 /**
  * 타겟 ref의 바깥쪽을 클릭할때 실행하는 hooks
  * @param onClickOutside
  */
-export const useOnClickOutside = <T extends HTMLElement>(
-  fn: (e?: WindowEventMap['click']) => void,
-) => {
+const useOutsideClick = <T extends HTMLElement>(fn: (e?: WindowEventMap['click']) => void) => {
   const ref = useRef<T>(null);
   const fnRef = useRef(fn);
 
@@ -23,7 +21,9 @@ export const useOnClickOutside = <T extends HTMLElement>(
     [fnRef, ref],
   );
 
-  useWindowEvent('click', onClickOutSide, [onClickOutSide]);
+  useWindowEvent('click', onClickOutSide as (evt: Event) => void, [onClickOutSide]);
 
   return ref;
 };
+
+export default useOutsideClick;
