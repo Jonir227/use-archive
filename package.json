@@ -10,7 +10,8 @@
   "scripts": {
     "init": "tsc --init",
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "author": "",
   "license": "ISC",

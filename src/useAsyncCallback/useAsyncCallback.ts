@@ -7,9 +7,9 @@ interface IAsyncState<T> {
 }
 
 /**
- * 상태, 데이터, 데이터 호출하는함수를 리턴하는 hooks
- * @param endpoint : api 호출하는 함수
- * @param defaultState : 기본 상태
+ * hook that returns [state, T, call]
+ * @param endpoint : function returning promise<T>
+ * @param defaultState : default State T.
  */
 const useAsyncCallback = <T, A extends any[]>(endpoint: ApiEndPoint<T, A>, defaultState: T) => {
   const [{ state, data }, setState] = useSetState<IAsyncState<T>>({
@@ -17,17 +17,14 @@ const useAsyncCallback = <T, A extends any[]>(endpoint: ApiEndPoint<T, A>, defau
     state: 'INIT',
   });
 
-  const call = useCallback((...args: A) => {
+  const call = useCallback(async (...args: A) => {
     setState({ state: 'WAITING' });
-    endpoint
-      .apply(null, args || [])
-      .then((res: T) => {
-        setState({ state: 'SUCCESS', data: res });
-      })
-      .catch((e: Error) => {
-        console.log(e);
-        setState({ state: 'FAILURE' });
-      });
+    try {
+      const res = await endpoint.apply(null, args || []);
+      setState({ state: 'SUCCESS', data: res });
+    } catch {
+      setState({ state: 'FAILURE' });
+    }
   }, []);
 
   return [state, data, call] as const;

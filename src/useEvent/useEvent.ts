@@ -1,4 +1,4 @@
-import { ChangeEvent, RefObject, useLayoutEffect } from 'react';
+import { ChangeEvent, RefObject, useLayoutEffect, useEffect } from 'react';
 
 type EventFunction = (e: ChangeEvent<any> | Event) => void;
 
@@ -15,7 +15,7 @@ const useEvent = (
   eventFn: EventFunction,
   watch: any[] = [],
 ) => {
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (target.current) {
       target.current.addEventListener(eventType, eventFn);
     }
