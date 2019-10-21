@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import useSetState from '../useSetState';
 
 interface IAsyncEntity<T, A extends any[]> {
-  endpoint: ApiEndPoint<T, A | never[]>;
+  endpoint: ApiEndPoint<T, A>;
   params?: A;
 }
 
@@ -26,12 +26,11 @@ const useAsync = <T, A extends any[]>(entity: IAsyncEntity<T, A>, defaultState: 
     const { endpoint, params } = entity;
     setState({ state: 'WAITING' });
     endpoint
-      .apply(null, params || [])
+      .apply(null, params || ([] as any))
       .then((res: T) => {
         setState({ state: 'SUCCESS', data: res });
       })
       .catch((e: Error) => {
-        console.log(e);
         setState({ state: 'FAILURE' });
       });
   }, []);
