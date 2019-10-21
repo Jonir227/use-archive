@@ -3,9 +3,13 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jonir227/use-archive.git"
+  },
   "scripts": {
     "init": "tsc --init",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -13,7 +17,11 @@
     "react": "^16.10.2"
   },
   "devDependencies": {
+    "@testing-library/react-hooks": "^3.1.0",
+    "@types/jest": "^24.0.19",
     "@types/react": "^16.9.9",
+    "jest": "^24.9.0",
+    "react-test-renderer": "^16.10.2",
     "typescript": "^3.6.4"
   }
 }
