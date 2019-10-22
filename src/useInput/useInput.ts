@@ -5,7 +5,7 @@ import { ChangeEvent, useCallback, useMemo, useState } from 'react';
  * @param initialValue 초기값
  * @param validator input값 검증하는함수
  */
-const useInputState = (initialValue: string, validator?: (value: string) => boolean) => {
+const useInput = (initialValue: string, validator?: (value: string) => boolean) => {
   const [inputValue, setInputValue] = useState(initialValue);
 
   const isValid = useMemo(() => {
@@ -23,4 +23,4 @@ const useInputState = (initialValue: string, validator?: (value: string) => bool
   return [inputValue, onChange, isValid] as const;
 };
 
-export default useInputState;
+export default useInput;

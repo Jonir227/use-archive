@@ -3,8 +3,8 @@ import useAsyncCallback from './useAsyncCallback';
 import useContextSelector from './useContextSelector';
 import useDidUpdate from './useDidUpdate';
 import useEvent from './useEvent';
-import useFormState from './useFormState/useFormState';
-import useInputState from './useInputState/useInputState';
+import useForm from './useForm';
+import useInput from './useInput/useInput';
 import useIntersectionObserver from './useIntersectionObserver';
 import useLocalStorage from './useLocalStorage';
 import useOnce from './useOnce';
@@ -19,8 +19,8 @@ export {
   useContextSelector,
   useDidUpdate,
   useEvent,
-  useFormState,
-  useInputState,
+  useForm as useFormState,
+  useInput as useInputState,
   useIntersectionObserver,
   useLocalStorage,
   useOnce,
