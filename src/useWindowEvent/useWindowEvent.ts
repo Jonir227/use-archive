@@ -1,4 +1,4 @@
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 /**
  * 윈도우 이벤트를 등록하는 hooks
